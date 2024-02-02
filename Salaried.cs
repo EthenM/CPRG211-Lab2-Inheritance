@@ -8,7 +8,7 @@ namespace Lab_Inheritance
 {
     internal class Salaried : Employee
     {
-        public double Salary { get; set; }
+        public double Salary { get; }
 
         public Salaried()
         {
@@ -22,8 +22,13 @@ namespace Lab_Inheritance
             Salary = salary;
         }
 
+        /// <summary>
+        /// Gets the pay for a salaried worker
+        /// </summary>
+        /// <returns>The weekly pay of the employee</returns>
         public override double GetPay()
         {
+            //since there is no formula, the salary itself can just be returned
             return Salary;
         }
 

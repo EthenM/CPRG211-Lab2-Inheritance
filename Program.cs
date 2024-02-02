@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace Lab_Inheritance
 {
+    //String formatting found from: https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings
+    
     internal class Program
     {
         public static void Main(string[] args)
@@ -18,8 +20,8 @@ namespace Lab_Inheritance
 
     public class EntryPoint
     {
-        //since the text file shouldn't change locations, using a readonly will work
-        //The path may be prone to changing, const may not be the best choice.
+        //The path may be prone to changing, so const may not be the best choice.
+        //However, since the text file shouldn't change locations, using readonly will work
         private readonly string EMPLOYEE_FILE_PATH = ".\\employees.txt";
 
         /// <summary>
@@ -29,7 +31,7 @@ namespace Lab_Inheritance
         {
             List<Employee> employees = PopulateEmployeeList();
 
-            double averagePay = GetAveragePay(employees);
+            string averagePay = GetAveragePay(employees).ToString("C");
             Console.WriteLine($"average: {averagePay}\n");
 
             string highestWage = GetHighestWage(employees);
@@ -39,15 +41,17 @@ namespace Lab_Inheritance
             Console.WriteLine(lowestSalary);
 
             Dictionary<EmployeeType, double> percents = GetPercents(employees);
+            
+            //this will loop through each dictionary entry and print the percent.
+            //I can dynamically print the type due to the weird nature of enums, where they function as both ints and strings
+            foreach (KeyValuePair<EmployeeType, double> pair in percents)
+            {
+                string percent = pair.Value.ToString("P");
+                //this will ensure that the type of employee is lowercase
+                string employeeType = pair.Key.ToString().ToLower();
 
-            //formatting found from: https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings#fixed-point-format-specifier-f
-            string salaryPercent = percents[EmployeeType.Salaried].ToString("F2") + "%";
-            string wagePercent = percents[EmployeeType.Wage].ToString("F2") + "%";
-            string partTimePercent = percents[EmployeeType.PartTime].ToString("F2") + "%";
-
-            Console.WriteLine($"The percent of salaried employees is {salaryPercent}");
-            Console.WriteLine($"The percent of waged employees is {wagePercent}");
-            Console.WriteLine($"The percent of part-time employees is {partTimePercent}");
+                Console.WriteLine($"The percent of {employeeType} employees is {percent}");
+            }
 
         }
 
@@ -98,7 +102,7 @@ namespace Lab_Inheritance
                 //this will tell us what employee to create
                 EmployeeType employeeType = Employee.GetEmployeeType(id);
 
-                //since all of the cases are apparently the same scope, I defined the people in the add method.
+                //since all of the cases are apparently the same scope, I chose to instantiate the people in the add method.
                 switch (employeeType)
                 {
                     case EmployeeType.Salaried:
@@ -163,7 +167,10 @@ namespace Lab_Inheritance
                 }
             }
 
-            return $"The highest wage belongs to {highest?.Name} with a wage of {highest?.GetPay()}\n";
+            //convert it to a formatted string, so the output looks unified
+            string? highestWage = highest?.GetPay().ToString("C");
+
+            return $"The highest wage belongs to {highest?.Name} with a wage of {highestWage}\n";
         }
 
         /// <summary>
@@ -187,7 +194,10 @@ namespace Lab_Inheritance
                 }
             }
 
-            return $"The lowest salary belongs to {lowest?.Name} with a salary of {lowest?.GetPay()}\n";
+            //convert it to a formatted string, so the output looks unified
+            string? lowestSalary = lowest?.GetPay().ToString("C");
+
+            return $"The lowest salary belongs to {lowest?.Name} with a salary of {lowestSalary}\n";
         }
 
         /// <summary>
@@ -228,7 +238,7 @@ namespace Lab_Inheritance
             foreach (KeyValuePair<EmployeeType, double> pair in percents)
             {
                 //divide the count by the amount, multiply by 100
-                double percent = (pair.Value / employees.Count) * 100;
+                double percent = pair.Value / employees.Count;
 
                 percents[pair.Key] = percent;
             }

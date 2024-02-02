@@ -15,20 +15,20 @@ namespace Lab_Inheritance
         //adding nullible to all strings to ensure they don't complain if something goes wrong
         //and these aren't assigned to.
         
-        //all setters will be private, to ensure proper encapsulation
-        public string? Id { get; private set; }
+        //all properties will be readonly, to ensure proper encapsulation
+        public string? Id { get; }
 
-        public string? Name { get; private set; }
+        public string? Name { get; }
 
-        public string? Address { get; private set; }
+        public string? Address { get; }
 
-        public string? Phone { get; private set; }
+        public string? Phone { get; }
 
-        public long Sin {  get; private set; }
+        public long Sin {  get; }
 
-        public string? Dob { get; private set; }
+        public string? Dob { get; }
 
-        public string? Dept { get; private set; }
+        public string? Dept { get; }
 
 
         public Employee()
@@ -53,6 +53,11 @@ namespace Lab_Inheritance
             Dept = dept;
         }
 
+        /// <summary>
+        /// determines the type of employee from the first number of the id
+        /// </summary>
+        /// <param name="id">The id to determine employee type with</param>
+        /// <returns>The employee type</returns>
         public static EmployeeType GetEmployeeType(string id)
         {
             //if the value is not changed, then we know the value in id will lead to part time
@@ -70,6 +75,10 @@ namespace Lab_Inheritance
             return type;
         }
 
+        /// <summary>
+        /// Determines the worker's weekly pay
+        /// </summary>
+        /// <returns>The weekly pay of the employee</returns>
         public virtual double GetPay()
         {
             return 0;

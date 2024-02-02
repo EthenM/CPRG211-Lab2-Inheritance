@@ -11,9 +11,9 @@ namespace Lab_Inheritance
 {
     internal class PartTime : Employee
     {
-        public double Rate { get; set; }
+        public double Rate { get; }
 
-        public double Hours { get; set; }
+        public double Hours { get; }
 
         PartTime()
         {
@@ -29,15 +29,22 @@ namespace Lab_Inheritance
             Hours = hours;
         }
 
+        /// <summary>
+        /// Gets the pay of part time workers, by multiplying rate and hours, with no overtime.
+        /// </summary>
+        /// <returns>The weekly pay</returns>
         public override double GetPay()
         {
+            //since overtime doesn't apply to parttime employees, the pay can just use the one formula
             double pay = Hours * Rate;
 
             return pay;
         }
+
         public override string ToString()
         {
-            return $"Id: {Id}\nName: {Name}\nAddress: {Address}\nPhone: {Phone}\nSIN: {Sin}\nDOB: {Dob}\nDept: {Dept}\nRate: {Rate}\nHours: {Hours}";
+            return $"Id: {Id}\nName: {Name}\nAddress: {Address}\nPhone: {Phone}\nSIN: {Sin}\n" +
+                $"DOB: {Dob}\nDept: {Dept}\nRate: {Rate}\nHours: {Hours}";
         }
     }
 }
